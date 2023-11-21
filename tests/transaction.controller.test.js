@@ -1,8 +1,7 @@
-import { InsufficientBalance } from '../src/exceptions/transaction';
 import * as TransferRepository from '../src/models/transferModel';
 import * as UserModel from '../src/models/userModels';
 import Transaction from '../src/controller/transactionController';
-import { fetchUser } from '../src/middlewares/fetchUser';
+import { InsufficientBalance } from '../src/utils/ApiError';
 const creditTransaction = {
 	id: 1,
 	user_id: 1,
