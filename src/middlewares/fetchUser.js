@@ -9,7 +9,7 @@ export const fetchUser = async (req, res) => {
 
 	const token = auth.split(' ')[1];
 	try {
-		const payload = jwt.verify(token, JWT_SECRET);
+		const payload = jwt.verify(token, process.env.JWT_SECRET);
 		req.user = payload.user;
 		return req.user;
 	} catch (error) {
