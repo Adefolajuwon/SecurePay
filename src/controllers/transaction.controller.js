@@ -4,7 +4,7 @@ import {
 } from '../services/transaction.service';
 import { decreaseBalance, increaseBalance } from '../services/user.service';
 
-const Transaction = {
+let Transaction = {
 	withdraw: async (req, res, next) => {
 		const { amount } = req.body;
 		const id = req.user._id;
@@ -12,12 +12,18 @@ const Transaction = {
 			let transactionId;
 			await Sequelize.transaction(async (transaction) => {
 				[transactionId] = await Promise.all([
-					createTransaction(id, amount, 'debit', paymentProcessor, transaction),
+					createTransaction(
+						id,
+						amount,
+						'debit',
+						'paymentProcessor',
+						transaction
+					),
 					decreaseBalance(id, amount, transaction),
 				]);
 
-				const transaction = await findTransaction(transactionId);
-				res.status(200).json();
+				const transactionResult = await findTransaction(transactionId);
+				res.status(200).json(transactionResult);
 			});
 		} catch (error) {
 			console.error(error);
@@ -40,17 +46,17 @@ const Transaction = {
 						id,
 						amount,
 						'credit',
-						paymentProcessor,
+						'paymentProcessor',
 						transaction
 					),
 					increaseBalance(id, amount, transaction),
 				]);
 
-				const transaction = await findTransaction(transactionId);
+				const transactionResult = await findTransaction(transactionId);
 				sendSuccess(
 					res,
 					`You have deposited ${amount} to your account`,
-					transaction
+					transactionResult
 				);
 			});
 		} catch (error) {
@@ -67,7 +73,6 @@ const Transaction = {
 		const userId = req.user.id;
 
 		try {
-			// Get the user and check their balance
 			const user = await findUserById(userId);
 
 			if (!user) {
@@ -94,10 +99,10 @@ const Transaction = {
 				);
 			}
 
-			let debitId, creditId, transactionContext; // Renamed 'transaction' to 'transactionContext'
+			let debitId, creditId, transactionContext;
 			await Sequelize.transaction(async (transactions) => {
 				[debitId, creditId] = await Promise.all([
-					createTransaction(userId, amount, 'debit', 'transfer', transaction),
+					createTransaction(userId, amount, 'debit', 'transfer', transactions),
 					createTransaction(
 						recipientId,
 						amount,
@@ -108,7 +113,7 @@ const Transaction = {
 					decreaseBalance(userId, amount, transactions),
 					increaseBalance(recipientId, amount, transactions),
 				]);
-				transactionContext = transactions; // Assign 'transaction' to 'transactionContext'
+				transactionContext = transactions;
 			});
 
 			const result = await startTransfer(
@@ -116,7 +121,7 @@ const Transaction = {
 				debitId,
 				amount,
 				transactionContext
-			); // Use 'transactionContext'
+			);
 
 			// Handle result as needed
 

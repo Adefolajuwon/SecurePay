@@ -2,7 +2,8 @@ import http from 'http';
 import express from 'express';
 import app from './index.js';
 import sequelizeService from './services/sequelize.service.js';
-const PORT = process.env.PORT || 8003;
+import Router from './routes/user.routes.js';
+const PORT = process.env.PORT || 8004;
 
 const serverApp = express();
 
