@@ -3,7 +3,18 @@ import {
 	findTransaction,
 } from '../services/transaction.service';
 import { decreaseBalance, increaseBalance } from '../services/user.service';
-
+import {
+	BaseError,
+	NotFoundError,
+	BadRequestError,
+	ValidationError,
+	UnauthorizedError,
+	ForbiddenError,
+	InternalServerError,
+	BadTokenError,
+	InsufficientBalance,
+	TokenExpiredError,
+} from '../utils/ApiError';
 let Transaction = {
 	withdraw: async (req, res, next) => {
 		const { amount } = req.body;
@@ -27,14 +38,10 @@ let Transaction = {
 			});
 		} catch (error) {
 			console.error(error);
-			sendError(
-				res,
-				'An error occurred',
-				HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
-			);
+			next(error);
 		}
 	},
-	deposit: async (req, res) => {
+	deposit: async (req, res, next) => {
 		const { amount } = req.body;
 		const id = req.user._id;
 
