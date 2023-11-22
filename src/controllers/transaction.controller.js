@@ -68,11 +68,7 @@ let Transaction = {
 			});
 		} catch (error) {
 			console.error(error);
-			sendError(
-				res,
-				'An error occurred',
-				HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
-			);
+			next(error);
 		}
 	},
 	transfer: async (req, res) => {
@@ -135,12 +131,7 @@ let Transaction = {
 			// Send a success response to the client
 			return sendSuccess(res, 'Transfer successful', HTTP_STATUS_CODE.OK);
 		} catch (error) {
-			// Handle errors and send an appropriate error response to the client
-			return sendError(
-				res,
-				'Transfer failed',
-				HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
-			);
+			next(error);
 		}
 	},
 };
