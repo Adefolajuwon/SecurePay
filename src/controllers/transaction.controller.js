@@ -47,7 +47,7 @@ let Transaction = {
 				]);
 			});
 
-			const transactionResult = await findTransaction(1);
+			const transactionResult = await findTransaction(transactionId[0]);
 			sendSuccess(
 				res,
 				`You have deposited ${amount} to your account`,
