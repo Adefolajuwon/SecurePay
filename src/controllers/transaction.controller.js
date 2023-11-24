@@ -19,16 +19,21 @@ import { sendSuccess } from './baseController.js';
 let Transaction = {
 	withdraw: async (req, res, next) => {
 		const { amount } = req.body;
-		const id = req.user._id;
+		const id = 1;
 		try {
 			let transactionId;
-			[transactionId] = await Promise.all([
-				createTransaction(id, amount, 'debit', 'paymentProcessor', transaction),
-				decreaseBalance(id, amount, transaction),
-			]);
-
-			const transactionResult = await findTransaction(transactionId);
-			sendSuccess();
+			await db.transaction(async (trx) => {
+				[transactionId] = await Promise.all([
+					createTransaction(id, amount, 'debit', 'paymentProcessor', trx),
+					decreaseBalance(id, amount, trx),
+				]);
+			});
+			const transactionResult = await findTransaction(1);
+			sendSuccess(
+				res,
+				`You have withdrawn ${amount} from your account`,
+				transactionResult
+			);
 		} catch (error) {
 			console.error(error);
 			next(error);
@@ -78,11 +83,7 @@ let Transaction = {
 			}
 
 			if (!amount) {
-				return sendError(
-					res,
-					'Please input amount',
-					HTTP_STATUS_CODE.NOT_ACCEPTABLE
-				);
+				throw new ForbiddenError();
 			}
 
 			let debitId, creditId, transactionContext;
@@ -112,7 +113,7 @@ let Transaction = {
 			// Handle result as needed
 
 			// Send a success response to the client
-			return sendSuccess(res, 'Transfer successful', HTTP_STATUS_CODE.OK);
+			return sendSuccess(res, 'Transfer successful', result);
 		} catch (error) {
 			next(error);
 		}
