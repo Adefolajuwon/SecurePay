@@ -1,3 +1,4 @@
+import { db } from '../database/knex.js';
 import {
 	createTransaction,
 	findTransaction,
@@ -14,6 +15,7 @@ import {
 	InsufficientBalance,
 	TokenExpiredError,
 } from '../utils/ApiError.js';
+import { sendSuccess } from './baseController.js';
 let Transaction = {
 	withdraw: async (req, res, next) => {
 		const { amount } = req.body;
@@ -38,12 +40,14 @@ let Transaction = {
 
 		try {
 			let transactionId;
-			[transactionId] = await Promise.all([
-				createTransaction(id, amount, 'credit', 'paymentProcessor', trx),
-				increaseBalance(id, amount, trx),
-			]);
+			await db.transaction(async (trx) => {
+				[transactionId] = await Promise.all([
+					createTransaction(1, amount, 'credit', 'paymentProcessor', trx),
+					increaseBalance(1, amount, trx),
+				]);
+			});
 
-			const transactionResult = await findTransaction(transactionId);
+			const transactionResult = await findTransaction(1);
 			sendSuccess(
 				res,
 				`You have deposited ${amount} to your account`,

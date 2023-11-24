@@ -1,19 +1,13 @@
 import { db } from '../database/knex.js';
 
-export const createTransaction = async (
-	userId,
-	amount,
-	type,
-	source,
-	transaction
-) => {
+export const createTransaction = async (userId, amount, type, source, trx) => {
 	let response = db('transactions').insert({
 		user_id: userId,
 		amount,
 		type,
 		source,
 	});
-	if (transaction) response = response.transacting(transaction);
+	if (trx) response = response.transacting(trx);
 	return response;
 };
 

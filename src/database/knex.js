@@ -2,10 +2,10 @@ import knex from 'knex';
 import config from '../config/database.js';
 
 export const db = knex({
-	client: config.DB_CONNECTION || 'mysql',
+	client: 'pg',
 	connection: {
-		host: config.DB_HOST || '127.0.0.1',
-		port: config.DB_PORT || 3306,
+		host: config.DB_HOST,
+		port: 5432,
 		user: config.username || 'root',
 		password: config.password || '',
 		database: config.database || 'default',
