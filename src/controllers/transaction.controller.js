@@ -1,10 +1,9 @@
 import {
 	createTransaction,
 	findTransaction,
-} from '../services/transaction.service';
-import { decreaseBalance, increaseBalance } from '../services/user.service';
+} from '../models/transaction.service.js';
+import { decreaseBalance, increaseBalance } from '../models/user.service.js';
 import {
-	BaseError,
 	NotFoundError,
 	BadRequestError,
 	ValidationError,
@@ -14,28 +13,20 @@ import {
 	BadTokenError,
 	InsufficientBalance,
 	TokenExpiredError,
-} from '../utils/ApiError';
+} from '../utils/ApiError.js';
 let Transaction = {
 	withdraw: async (req, res, next) => {
 		const { amount } = req.body;
 		const id = req.user._id;
 		try {
 			let transactionId;
-			await Sequelize.transaction(async (transaction) => {
-				[transactionId] = await Promise.all([
-					createTransaction(
-						id,
-						amount,
-						'debit',
-						'paymentProcessor',
-						transaction
-					),
-					decreaseBalance(id, amount, transaction),
-				]);
+			[transactionId] = await Promise.all([
+				createTransaction(id, amount, 'debit', 'paymentProcessor', transaction),
+				decreaseBalance(id, amount, transaction),
+			]);
 
-				const transactionResult = await findTransaction(transactionId);
-				res.status(200).json(transactionResult);
-			});
+			const transactionResult = await findTransaction(transactionId);
+			sendSuccess();
 		} catch (error) {
 			console.error(error);
 			next(error);
