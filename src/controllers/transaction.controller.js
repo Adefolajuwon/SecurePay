@@ -66,7 +66,7 @@ let Transaction = {
 			const user = await findUserById(userId);
 
 			if (!user) {
-				return sendError(res, 'User not found', HTTP_STATUS_CODE.NOT_FOUND);
+				throw new BadRequestError();
 			}
 
 			if (user.balance < amount) {
@@ -74,11 +74,7 @@ let Transaction = {
 			}
 
 			if (amount <= 0) {
-				return sendError(
-					res,
-					'Invalid amount',
-					HTTP_STATUS_CODE.NOT_ACCEPTABLE
-				);
+				throw new ForbiddenError();
 			}
 
 			if (!amount) {
