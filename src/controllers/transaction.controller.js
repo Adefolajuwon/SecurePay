@@ -34,29 +34,21 @@ let Transaction = {
 	},
 	deposit: async (req, res, next) => {
 		const { amount } = req.body;
-		const id = req.user._id;
+		const id = 1;
 
 		try {
 			let transactionId;
-			await Sequelize.transaction(async (transaction) => {
-				[transactionId] = await Promise.all([
-					createTransaction(
-						id,
-						amount,
-						'credit',
-						'paymentProcessor',
-						transaction
-					),
-					increaseBalance(id, amount, transaction),
-				]);
+			[transactionId] = await Promise.all([
+				createTransaction(id, amount, 'credit', 'paymentProcessor', trx),
+				increaseBalance(id, amount, trx),
+			]);
 
-				const transactionResult = await findTransaction(transactionId);
-				sendSuccess(
-					res,
-					`You have deposited ${amount} to your account`,
-					transactionResult
-				);
-			});
+			const transactionResult = await findTransaction(transactionId);
+			sendSuccess(
+				res,
+				`You have deposited ${amount} to your account`,
+				transactionResult
+			);
 		} catch (error) {
 			console.error(error);
 			next(error);
