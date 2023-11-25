@@ -8,6 +8,7 @@ export const createTransaction = async (userId, amount, type, source, trx) => {
 		source,
 	});
 	if (trx) response = response.transacting(trx);
+	console.log({ createTRansaction: response });
 	return response;
 };
 

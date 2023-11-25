@@ -27,6 +27,7 @@ let Transaction = {
 					createTransaction(id, amount, 'debit', 'paymentProcessor', trx),
 					decreaseBalance(id, amount, trx),
 				]);
+				console.log({ transactionId: transactionId });
 			});
 			const transactionResult = await findTransaction(1);
 			sendSuccess(
@@ -52,7 +53,7 @@ let Transaction = {
 				]);
 			});
 
-			const transactionResult = await findTransaction(transactionId[0]);
+			const transactionResult = await findTransaction(1);
 			sendSuccess(
 				res,
 				`You have deposited ${amount} to your account`,
