@@ -1,4 +1,3 @@
-import { next } from 'sucrase/dist/types/parser/tokenizer/index.js';
 import { db } from '../database/knex.js';
 import {
 	createTransaction,
@@ -124,12 +123,13 @@ let Transaction = {
 			next(error);
 		}
 	},
-	balance: async (req, res) => {
+	balance: async (req, res, next) => {
 		const id = 1;
 		try {
-			const balance = await getBalance();
+			const balance = await getBalance(id);
 			return balance;
 		} catch (error) {
+			console.log(error);
 			next(error);
 		}
 	},

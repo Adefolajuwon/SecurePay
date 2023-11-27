@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import { getBalance } from '../models/user.model.js';
-
+import Transaction from '../controllers/transaction.controller.js';
 const userRoutes = Router();
 
-userRoutes.get('/balance', getBalance);
+userRoutes.get('/balance', Transaction.balance);
 
 export { userRoutes };

@@ -26,7 +26,19 @@ export const decreaseBalance = async (id, amount, trx) => {
 	console.log({ decreaseBalance: response });
 	return response;
 };
-export const getBalance = async (id) => {
-	let response = db('users').where('id', id).select('account_balance');
-	return response;
+export const getBalance = async (userId) => {
+	try {
+		const result = await db('users')
+			.where({ id: userId })
+			.select('account_balance');
+
+		if (result.length > 0) {
+			return result[0].account_balance;
+		}
+
+		return null;
+	} catch (error) {
+		console.error('Error fetching user balance:', error.message);
+		throw error;
+	}
 };
