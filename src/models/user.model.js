@@ -26,3 +26,7 @@ export const decreaseBalance = async (id, amount, trx) => {
 	console.log({ decreaseBalance: response });
 	return response;
 };
+export const getBalance = async (id) => {
+	let response = db('users').where('id', id).select('account_balance');
+	return response;
+};

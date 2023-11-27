@@ -1,9 +1,14 @@
+import { next } from 'sucrase/dist/types/parser/tokenizer/index.js';
 import { db } from '../database/knex.js';
 import {
 	createTransaction,
 	findTransaction,
-} from '../models/transaction.service.js';
-import { decreaseBalance, increaseBalance } from '../models/user.service.js';
+} from '../models/transaction.model.js';
+import {
+	decreaseBalance,
+	getBalance,
+	increaseBalance,
+} from '../models/user.model.js';
 import {
 	NotFoundError,
 	BadRequestError,
@@ -115,6 +120,15 @@ let Transaction = {
 
 			// Send a success response to the client
 			return sendSuccess(res, 'Transfer successful', result);
+		} catch (error) {
+			next(error);
+		}
+	},
+	balance: async (req, res) => {
+		const id = 1;
+		try {
+			const balance = await getBalance();
+			return balance;
 		} catch (error) {
 			next(error);
 		}
