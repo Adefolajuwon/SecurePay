@@ -33,7 +33,7 @@ let Transaction = {
 				]);
 				// console.log(transactionId);
 			});
-			const transactionResult = await findTransaction(transactionId);
+			const transactionResult = await findTransaction(transactionId[0]);
 			sendSuccess(
 				res,
 				`You have withdrawn ${amount} from your account`,
