@@ -23,7 +23,6 @@ export const decreaseBalance = async (id, amount, trx) => {
 		.where('id', id)
 		.decrement('account_balance', amount);
 	if (trx) response = response.transacting(trx);
-	console.log({ decreaseBalance: response });
 	return response;
 };
 export const getBalance = async (userId) => {

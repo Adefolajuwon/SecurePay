@@ -31,7 +31,7 @@ let Transaction = {
 					createTransaction(id, amount, 'debit', 'paymentProcessor', trx),
 					decreaseBalance(id, amount, trx),
 				]);
-				console.log({ transactionId: transactionId });
+				console.log(transactionId);
 			});
 			const transactionResult = await findTransaction(1);
 			sendSuccess(
