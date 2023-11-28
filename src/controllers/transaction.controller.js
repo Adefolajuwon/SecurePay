@@ -127,9 +127,9 @@ let Transaction = {
 		const id = 1;
 		try {
 			const balance = await getBalance(id);
-			return balance;
+			res.json({ balance }); // Send the balance as a JSON response
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			next(error);
 		}
 	},
