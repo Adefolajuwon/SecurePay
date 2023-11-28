@@ -23,13 +23,13 @@ import { sendSuccess } from './baseController.js';
 let Transaction = {
 	withdraw: async (req, res, next) => {
 		const { amount } = req.body;
-		const id = 1;
+		const userId = 1;
+		let transactionId;
 		try {
-			let transactionId;
 			await db.transaction(async (trx) => {
 				[transactionId] = await Promise.all([
-					createTransaction(id, amount, 'debit', 'paymentProcessor', trx),
-					decreaseBalance(id, amount, trx),
+					createTransaction(userId, amount, 'debit', 'paymentProcessor', trx),
+					decreaseBalance(userId, amount, trx),
 				]);
 				// console.log(transactionId);
 			});
