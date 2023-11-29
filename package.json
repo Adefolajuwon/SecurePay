@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/index.js",
+    "test": "jest --config ./jest.config.json",
     "db:migrate": "node -r dotenv/config ./node_modules/knex/bin/cli.js migrate:latest --knexfile src/knexfile.js"
 
   },
