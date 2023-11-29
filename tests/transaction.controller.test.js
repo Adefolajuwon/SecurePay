@@ -1,4 +1,7 @@
 import Transaction from '../src/controllers/transaction.controller';
+import * as UserModels from '../src/models/user.model.js';
+import * as TransferModel from '../src/models/transfer.model.js';
+import * as TransactionModel from '../src/models/transaction.model.js';
 const creditTransaction = {
 	id: 1,
 	user_id: 1,
@@ -29,17 +32,27 @@ const user = {
 const res = { headers: {}, body: {} };
 test('user gets an error if the amount is less than 1', async () => {
 	const req = {
-		// headers: { authorization: 'Bearer token' },
 		body: { amount: -1 },
 	};
 
-	// Create a mock response object
 	const res = {
-		json: jest.fn(), // Mock the json function
+		json: jest.fn(),
 	};
 
 	await Transaction.withdraw(req, res);
 
-	// Expect that the json function was called with the correct error message
 	expect(res.json).toHaveBeenCalledWith('The minimum deposit is 1');
+});
+describe('deposit', () => {
+	test('user gets error if balance <  amount', async () => {
+		const req = {
+			body: { amount: 1000 },
+		};
+		const res = {
+			json: jest.fn(),
+		};
+		jest
+			.spyOn(TransferModel, 'findUserById')
+			.mockImplementationOnce(() => new Promise((resolve) => resolve(user)));
+	});
 });
