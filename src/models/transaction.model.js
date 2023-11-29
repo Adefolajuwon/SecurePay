@@ -13,5 +13,8 @@ export const createTransaction = async (userId, amount, type, source, trx) => {
 };
 
 export const findTransaction = async (id) => {
+	if (!id) {
+		return 'no id found';
+	}
 	return db('transactions').where('id', id).first();
 };

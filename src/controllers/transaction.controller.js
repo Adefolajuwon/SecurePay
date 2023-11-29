@@ -24,20 +24,21 @@ let Transaction = {
 	withdraw: async (req, res, next) => {
 		const { amount } = req.body;
 		const userId = 1;
-		let transactionId;
 		try {
+			let transactionId;
 			await db.transaction(async (trx) => {
 				[transactionId] = await Promise.all([
 					createTransaction(userId, amount, 'debit', 'paymentProcessor', trx),
 					decreaseBalance(userId, amount, trx),
+					console.log(transactionId),
 				]);
 				// console.log(transactionId);
 			});
-			const transactionResult = await findTransaction(transactionId[0]);
+			// const transactionResult = await findTransaction(transactionId[0]);
 			sendSuccess(
 				res,
-				`You have withdrawn ${amount} from your account`,
-				transactionResult
+				`You have withdrawn ${amount} from your account`
+				// transactionResult
 			);
 		} catch (error) {
 			console.error(error);
