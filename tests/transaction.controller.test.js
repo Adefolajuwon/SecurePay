@@ -1,7 +1,4 @@
-import * as TransferRepository from '../src/models/transferModel';
-import * as UserModel from '../src/models/userModels';
-import Transaction from '../src/controller/transactionController';
-import { InsufficientBalance } from '../src/utils/ApiError';
+import Transaction from '../src/controllers/transaction.controller';
 const creditTransaction = {
 	id: 1,
 	user_id: 1,
@@ -29,17 +26,20 @@ const user = {
 	email: 'mail@gmail.com',
 	account_balance: 100,
 };
-test('user get an error if they do not have enough balance', async () => {
+const res = { headers: {}, body: {} };
+test('user gets an error if the amount is less than 1', async () => {
 	const req = {
-		headers: { authorization: `Bearer ${jwtInfo}` },
-		body: { amount: 3000 },
+		// headers: { authorization: 'Bearer token' },
+		body: { amount: -1 },
 	};
-	jest
-		.spyOn(req.headers.authorization)
-		.mockImplementationOnce((token) => jwtInfo);
-	jest
-		.spyOn(UserModel, 'findUserById')
-		.mockImplementationOnce(() => new Promise((resolve) => resolve(user)));
-	const response = await Transaction.transfer(req, res);
-	expect(response.body.message).toBe(new InsufficientBalance().message);
+
+	// Create a mock response object
+	const res = {
+		json: jest.fn(), // Mock the json function
+	};
+
+	await Transaction.withdraw(req, res);
+
+	// Expect that the json function was called with the correct error message
+	expect(res.json).toHaveBeenCalledWith('The minimum deposit is 1');
 });

@@ -23,6 +23,10 @@ import { sendSuccess } from './baseController.js';
 let Transaction = {
 	withdraw: async (req, res, next) => {
 		const { amount } = req.body;
+		if (amount <= 0) {
+			return res.json('The minimum deposit is 1');
+		}
+
 		const userId = 1;
 		try {
 			let transactionId;
