@@ -2,7 +2,7 @@ import { getUserIp } from '../utils/ip';
 import { setWithExpiry, incrementCache } from '../database/redis.js';
 import { BadRequestError } from '../utils/ApiError';
 export const rateLimit = async (req, res, next) => {
-	let value = 0;
+	// let value = 0;
 	const expiryInSeconds = 3600;
 	try {
 		const ip = getUserIp(req);
@@ -16,6 +16,7 @@ export const rateLimit = async (req, res, next) => {
 
 		setWithExpiry(ip, value, expiryInSeconds);
 	} catch (error) {
+		console.log(error);
 		next(error);
 	}
 };
