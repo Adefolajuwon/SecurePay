@@ -19,6 +19,7 @@ import {
 	InsufficientBalance,
 	TokenExpiredError,
 } from '../utils/ApiError.js';
+import { getUserIp } from '../utils/ip.js';
 import { sendSuccessfull } from './compositionController.js';
 let Transaction = {
 	withdraw: async (req, res, next) => {
@@ -44,6 +45,7 @@ let Transaction = {
 				`You have withdrawn ${amount} from your account`
 				// transactionResult
 			);
+			await getUserIp(req);
 		} catch (error) {
 			console.error(error);
 			next(error);

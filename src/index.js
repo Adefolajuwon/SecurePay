@@ -5,6 +5,7 @@ import { userRoutes } from './routes/user.routes.js';
 const PORT = process.env.PORT || 8004;
 
 const serverApp = express();
+serverApp.set('trust proxy', true);
 
 serverApp.use((req, res, next) => {
 	res.setHeader('Content-Type', 'application/json');
