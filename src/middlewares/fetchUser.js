@@ -1,6 +1,12 @@
-import { Jwt } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
+
+/**
+ * Get the token from the headers
+ * check if it starts with Bearer(if it does not the token is invalid)
+ * split the token
+ *  and set req.user to the user info
+ */
 export const fetchUser = async (req, res) => {
 	let auth = req.headers.authorization;
 	if (!auth || !auth.startsWith('Bearer ')) {

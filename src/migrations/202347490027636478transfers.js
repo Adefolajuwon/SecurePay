@@ -10,13 +10,13 @@ export function up(knex) {
 			.unsigned()
 			.references('id')
 			.inTable('transactions')
-			.onDelete('SET NULL'); // Changed 'set null' to 'SET NULL'
+			.onDelete('SET NULL');
 		table
 			.bigInteger('debit_id')
 			.unsigned()
 			.references('id')
 			.inTable('transactions')
-			.onDelete('SET NULL'); // Changed 'set null' to 'SET NULL'
+			.onDelete('SET NULL');
 		table.decimal('amount', 19, 4).notNullable();
 		table.timestamps(true, true);
 	});

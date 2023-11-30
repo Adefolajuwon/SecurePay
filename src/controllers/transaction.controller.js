@@ -19,7 +19,7 @@ import {
 	InsufficientBalance,
 	TokenExpiredError,
 } from '../utils/ApiError.js';
-import { sendSuccess } from './baseController.js';
+import { sendSuccessfull } from './compositionController.js';
 let Transaction = {
 	withdraw: async (req, res, next) => {
 		const { amount } = req.body;
@@ -39,7 +39,7 @@ let Transaction = {
 				// console.log(transactionId);
 			});
 			// const transactionResult = await findTransaction(transactionId[0]);
-			sendSuccess(
+			sendSuccessfull(
 				res,
 				`You have withdrawn ${amount} from your account`
 				// transactionResult
@@ -63,7 +63,7 @@ let Transaction = {
 			});
 
 			const transactionResult = await findTransaction(1);
-			sendSuccess(
+			sendSuccessfull(
 				res,
 				`You have deposited ${amount} to your account`,
 				transactionResult
@@ -123,7 +123,7 @@ let Transaction = {
 			// Handle result as needed
 
 			// Send a success response to the client
-			return sendSuccess(res, 'Transfer successful', result);
+			return sendSuccessfull(res, 'Transfer successful', result);
 		} catch (error) {
 			next(error);
 		}
