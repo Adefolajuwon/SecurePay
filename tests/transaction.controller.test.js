@@ -43,7 +43,7 @@ test('user gets an error if the amount is less than 1', async () => {
 
 	expect(res.json).toHaveBeenCalledWith('The minimum deposit is 1');
 });
-describe('deposit', () => {
+describe('deposit', async () => {
 	test('user gets error if balance <  amount', async () => {
 		const req = {
 			body: { amount: 1000 },
@@ -52,7 +52,18 @@ describe('deposit', () => {
 			json: jest.fn(),
 		};
 		jest
-			.spyOn(TransferModel, 'findUserById')
+			.spyOn(UserModels, 'findUserById')
 			.mockImplementationOnce(() => new Promise((resolve) => resolve(user)));
 	});
+	jest
+		.spyOn(UserModels, 'increaseBalance')
+		.mockImplementationOnce(() => new Promise((resolve) => resolve([1])));
+	jest
+		.spyOn(TransactionModel, 'findTransaction')
+		.mockImplementationOnce(
+			() => new Promise((resolve) => resolve(creditTransaction))
+		);
+	const response = await Transaction.deposit(req, res);
+	expect(response.success.json).toBe(true);
+	expect(response.body.data).toMatchObject(creditTransaction);
 });
