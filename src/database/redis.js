@@ -35,7 +35,10 @@ export const getFromCache = async (key) => {
 	const value = await client.get(key);
 	return value;
 };
-
+export const incrementCache = async (value) => {
+	const value = await client.incr();
+	return value;
+};
 export const handleCacheInvalidation = async (cacheKey) => {
 	try {
 		// Delete the cache key from Redis
