@@ -17,7 +17,7 @@ export const connectRedis = async () => {
 		console.log('Connected to Redis');
 
 		// Set the cache_version
-		await client.set('cache_version', 1);
+		// await client.set('cache_version', 1);
 
 		return client;
 	} catch (error) {
@@ -36,8 +36,8 @@ export const getFromCache = async (key) => {
 	return value;
 };
 export const incrementCache = async (value) => {
-	const value = await client.incr();
-	return value;
+	const number = await client.incr(value);
+	return number;
 };
 export const handleCacheInvalidation = async (cacheKey) => {
 	try {

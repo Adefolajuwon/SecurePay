@@ -2,6 +2,7 @@ import http from 'http';
 import express from 'express';
 import router from './routes/transacation.routes.js';
 import { userRoutes } from './routes/user.routes.js';
+import { connectRedis } from './database/redis.js';
 const PORT = process.env.PORT || 8004;
 
 const serverApp = express();
@@ -16,7 +17,7 @@ serverApp.use(express.json());
 const server = http.createServer(serverApp);
 serverApp.use('/api/v1', router);
 serverApp.use('/api/v1', userRoutes);
-
+connectRedis();
 server.listen(PORT, async () => {
 	console.log(`Server started on PORT ${PORT}...`);
 });
