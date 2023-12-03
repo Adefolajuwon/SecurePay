@@ -30,13 +30,20 @@ export const setWithExpiry = async (key, value, expiryInSeconds) => {
 	await client.set(key, value, { EX: expiryInSeconds });
 	console.log(`Set key: ${key} with expiry of ${expiryInSeconds} seconds.`);
 };
+export const setToZeroWithExpiry = async (key, expiryInSeconds) => {
+	const value = 0;
+	await client.set(key, value, { EX: expiryInSeconds });
+	console.log(
+		`Set key: ${key} to zero with expiry of ${expiryInSeconds} seconds.`
+	);
+};
 
 export const getFromCache = async (key) => {
 	const value = await client.get(key);
 	return value;
 };
 export const incrementCache = async (value) => {
-	const number = await client.incr(value);
+	number = await client.incr(String(value));
 	return number;
 };
 export const handleCacheInvalidation = async (cacheKey) => {
