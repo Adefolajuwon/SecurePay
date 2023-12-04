@@ -42,9 +42,14 @@ export const getFromCache = async (key) => {
 	const value = await client.get(key);
 	return value;
 };
-export const incrementCache = async (value) => {
-	number = await client.incr(String(value));
-	return number;
+export const incrementCache = async (key) => {
+	try {
+		const number = await client.incr(key);
+		return number;
+	} catch (error) {
+		console.error(`Error incrementing cache for key ${key}:`, error);
+		throw error; // Rethrow the error to be caught by the calling function
+	}
 };
 export const handleCacheInvalidation = async (cacheKey) => {
 	try {

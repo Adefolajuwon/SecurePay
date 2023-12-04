@@ -5,24 +5,30 @@ import {
 	setToZeroWithExpiry,
 } from '../database/redis.js';
 // import { BadRequestError } from '../utils/ApiError';
-
+/**This doesnt work  */
 export const rateLimit = async (req, res, next) => {
 	const expiryInSeconds = 3600;
 	try {
 		const ip = await getUserIp(req);
-		const ipString = ip.toString();
 
-		console.log(ipString);
-		if (!ipString) {
+		// console.log(ip);
+		if (!ip) {
 			return res.status(404).json({ error: 'No ip found' });
 		}
-
-		let number = await incrementCache(ipString);
-		if (number === 21) {
-			return res.status(503).json('');
+		const cacheKey = ip;
+		const cached = await getFromCache(cacheKey);
+		if (cachedListings) {
+			console.log('Retrieved data from Redis cache.');
+			return res.json(JSON.parse(cachedListings));
 		}
 
-		setToZeroWithExpiry(ipString, expiryInSeconds);
+		let number = await incrementCache(ip);
+		console.log(number);
+		if (number === 3) {
+			return res.status(503).json('error');
+		}
+
+		setToZeroWithExpiry(ip, expiryInSeconds);
 		next();
 	} catch (error) {
 		console.log(error);
