@@ -3,7 +3,7 @@ import express from 'express';
 import router from './routes/transacation.routes.js';
 import { userRoutes } from './routes/user.routes.js';
 import { connectRedis } from './database/redis.js';
-const PORT = process.env.PORT || 8004;
+const PORT = process.env.PORT || 3000;
 
 const serverApp = express();
 serverApp.set('trust proxy', true);
