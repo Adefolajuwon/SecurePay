@@ -14,11 +14,7 @@ services:
     ports:
       - '2345:5432'
     volumes:
-      # docker will run SQL files that are copied to /docker-entrypoint-initdb.d automatically
-      # this gives us an easy way to run migrations / create db tables
-      # the order in which they are run is determined by the prefix
-      # so always prefix your migration files with 01_, 02_, etc
-      - ./migrations:/docker-entrypoint-initdb.d
+      - ./migrations:/
   app:
   build:
   ports:
