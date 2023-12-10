@@ -1,0 +1,13 @@
+
+services:
+  postgres:
+  app:
+  build:
+  ports:
+   = 8080:8080
+  environment:
+    DB_HOST: postgres
+    DB_NAME: wallet
+    DB_PORT: 5432
+    DB_USER: postgres
+
