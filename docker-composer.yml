@@ -1,13 +1,34 @@
-
+version: '3.8'
 services:
   postgres:
+    image: postgres:12
+    container_name: postgres
+    environment:
+      # allow anyone to connect - even without a password
+      # only use for running locally or in CI/CD
+      POSTGRES_HOST_AUTH_METHOD: trust
+      # create a role with name
+      POSTGRES_USER: postgres
+      # create database test-node-with-docker
+      POSTGRES_DB: wallet
+    ports:
+      - '2345:5432'
+    volumes:
+      # docker will run SQL files that are copied to /docker-entrypoint-initdb.d automatically
+      # this gives us an easy way to run migrations / create db tables
+      # the order in which they are run is determined by the prefix
+      # so always prefix your migration files with 01_, 02_, etc
+      - ./migrations:/docker-entrypoint-initdb.d
   app:
   build:
   ports:
-   = 8080:8080
+   = '8080:8080'
   environment:
     DB_HOST: postgres
     DB_NAME: wallet
     DB_PORT: 5432
     DB_USER: postgres
+  depends_on:
+    -postgres
+
 
