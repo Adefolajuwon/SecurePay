@@ -3,7 +3,7 @@ import express from 'express';
 import router from './routes/transacation.routes.js';
 import { userRoutes } from './routes/user.routes.js';
 import { connectRedis } from './database/redis.js';
-import { logger } from './logger/dev.js';
+import { logger } from './logger/index.js';
 const PORT = process.env.PORT || 3001;
 
 const serverApp = express();

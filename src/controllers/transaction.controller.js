@@ -20,7 +20,7 @@ import {
 	TokenExpiredError,
 } from '../utils/ApiError.js';
 import { getUserIp } from '../utils/ip.js';
-import { sendSuccessfull } from './compositionController.js';
+import { sendSuccessfull } from './composition.controller.js';
 let Transaction = {
 	withdraw: async (req, res, next) => {
 		const { amount } = req.body;
