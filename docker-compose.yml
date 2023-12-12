@@ -13,18 +13,14 @@ services:
       POSTGRES_DB: wallet
     ports:
       - '2345:5432'
-    volumes:
-      - ./migrations:/
   app:
-  build:
-  ports:
-   = '8080:8080'
-  environment:
-    DB_HOST: postgres
-    DB_NAME: wallet
-    DB_PORT: 5432
-    DB_USER: postgres
-  depends_on:
-    -postgres
-
-
+    build: .
+    ports:
+      - '8080:8080'
+    environment:
+      DB_HOST: postgres
+      DB_NAME: wallet
+      DB_PORT: 5432
+      DB_USER: postgres
+    depends_on:
+      - postgres
