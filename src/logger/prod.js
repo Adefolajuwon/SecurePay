@@ -1,8 +1,8 @@
 import winston from 'winston';
 const { combine, timestamp, printf } = winston.format;
 
-export const prodLogger = async (req, res) => {
-	const logger = winston.createLogger({
+export const prodLogger = async () => {
+	return winston.createLogger({
 		format: combine(
 			timestamp(),
 			winston.format.errors({ stack: true }),
