@@ -123,7 +123,6 @@ let Transaction = {
 			);
 
 			// Handle result as needed
-
 			// Send a success response to the client
 			return sendSuccessfull(res, 'Transfer successful', result);
 		} catch (error) {
