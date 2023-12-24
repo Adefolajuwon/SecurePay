@@ -5,7 +5,10 @@ import {
 	setToZeroWithExpiry,
 } from '../database/redis.js';
 // import { BadRequestError } from '../utils/ApiError';
-/**This doesnt work  */
+
+/**This shit doesnt work
+ * why you reading my code tho
+  */
 export const rateLimit = async (req, res, next) => {
 	const expiryInSeconds = 3600;
 	try {

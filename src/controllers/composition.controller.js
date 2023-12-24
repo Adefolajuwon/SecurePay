@@ -5,3 +5,14 @@ export const sendSuccessfull = (res, message = 'Success.', data = '') => {
 		data,
 	});
 };
+
+
+export class successfull {
+	constructor(res, message="success.", data= ''){
+		return res.status(200).json({
+			success: true,
+			message,
+			data,
+		})	
+	} 
+}
