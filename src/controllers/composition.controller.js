@@ -1,18 +1,15 @@
-export const sendSuccessfull = (res, message = 'Success.', data = '') => {
-	return res.status(200).json({
+export class SuccessResponse {
+	constructor(res, message = 'Success.', data = '') {
+	  this.res = res;
+	  this.message = message;
+	  this.data = data;
+	}
+  
+	send() {
+	  return this.res.status(200).json({
 		success: true,
-		message,
-		data,
-	});
-};
-
-
-export class successfull {
-	constructor(res, message="success.", data= ''){
-		return res.status(200).json({
-			success: true,
-			message,
-			data,
-		})	
-	} 
-}
+		message: this.message,
+		data: this.data,
+	  });
+	}
+  }

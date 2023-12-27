@@ -20,7 +20,7 @@ import {
 	TokenExpiredError,
 } from '../utils/ApiError.js';
 import { getUserIp } from '../utils/ip.js';
-import { sendSuccessfull } from './composition.controller.js';
+import { SuccessResponse } from './composition.controller.js';
 let Transaction = {
 	withdraw: async (req, res, next) => {
 		const { amount } = req.body;
@@ -40,7 +40,7 @@ let Transaction = {
 				// console.log(transactionId);
 			});
 			// const transactionResult = await findTransaction(transactionId[0]);
-			sendSuccessfull(
+			SuccessResponse(
 				res,
 				`You have withdrawn ${amount} from your account`
 				// transactionResult
@@ -65,7 +65,7 @@ let Transaction = {
 			});
 
 			const transactionResult = await findTransaction(1);
-			sendSuccessfull(
+			SuccessResponse(
 				res,
 				`You have deposited ${amount} to your account`,
 				transactionResult
@@ -124,7 +124,7 @@ let Transaction = {
 
 			// Handle result as needed
 			// Send a success response to the client
-			return sendSuccessfull(res, 'Transfer successful', result);
+			return SuccessResponse(res, 'Transfer successful', result);
 		} catch (error) {
 			next(error);
 		}
