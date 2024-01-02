@@ -4,7 +4,6 @@ export class SuccessResponse {
 	  this.message = message;
 	  this.data = data;
 	}
-  
 	send() {
 	  return this.res.status(200).json({
 		success: true,

@@ -4,7 +4,7 @@ import router from './routes/transacation.routes.js';
 import { userRoutes } from './routes/user.routes.js';
 import { connectRedis } from './database/redis.js';
 // import { logger } from './logger/index.js';
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3005;
 
 const serverApp = express();
 serverApp.set('trust proxy', true);

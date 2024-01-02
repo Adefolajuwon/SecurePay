@@ -63,7 +63,7 @@ const defaultUser = {
 	account_balance: 100,
 };
 const res = { headers: {}, body: {} };
-test('user gets an error if the amount is less than 1', async () => {
+test(' amount is less than 1', async () => {
 	const req = {
 		body: { amount: -1 },
 	};
